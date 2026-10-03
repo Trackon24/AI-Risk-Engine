@@ -39,3 +39,6 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+
+# Large GDELT source archives
+data/raw/gdelt/*.zip
