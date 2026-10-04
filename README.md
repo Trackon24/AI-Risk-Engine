@@ -11,7 +11,7 @@
 ![FastAPI](https://img.shields.io/badge/API-FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-In_Development-F59E0B?style=for-the-badge)
 
-> Turn unstructured financial information into structured, explainable risk signals for downstream portfolio stress analysis.
+*Turn unstructured financial information into structured, explainable risk signals for downstream portfolio stress analysis.*
 
 </div>
 
@@ -21,7 +21,7 @@
 
 Financial risk rarely arrives as a neat number. It appears as an earnings announcement, regulatory filing, geopolitical development, supply-chain disruption, or macroeconomic signal.
 
-**AI Risk Engine** is being built to transform these signals into a machine-readable risk layer while preserving the evidence behind each result.
+**AI Risk Engine** transforms these signals into a machine-readable risk layer while preserving the evidence behind each result.
 
 ```text
 ┌─────────────────────┐
@@ -40,12 +40,12 @@ Financial risk rarely arrives as a neat number. It appears as an earnings announ
 │  Sentiment          │
 │  Event Classifier   │
 │  Impact Scoring     │
-│  Entity Detection   │
+│  Explainability     │
 └──────────┬──────────┘
            ▼
 ┌─────────────────────┐
 │ RISK INTELLIGENCE   │
-│ Evidence + Exposure│
+│ Evidence + Exposure │
 │ Risk Propagation    │
 └──────────┬──────────┘
            ▼
@@ -64,7 +64,7 @@ Traditional financial analysis can require analysts to manually read large volum
 - **How severe is it?**
 - **What could the event mean for a portfolio?**
 
-The project automates the first layer of this workflow and converts unstructured information into structured signals that can feed a downstream stress-testing module.
+The project automates the first layer of this workflow and converts unstructured information into structured signals that feed a downstream stress-testing module.
 
 ---
 
@@ -79,7 +79,7 @@ The current ingestion pipeline uses two complementary public sources.
 
 ### SEC EDGAR
 
-The SEC pipeline extracts filing metadata and substantive filing/exhibit text into a normalized representation. The current processed examples include company financial results, revenue, EPS, margins, tariff effects and disclosed risk language.
+The SEC pipeline extracts filing metadata and substantive filing/exhibit text into a normalized representation. Current processed examples include company financial results, revenue, EPS, margins, tariff effects and disclosed risk language.
 
 ### GDELT GKG
 
@@ -114,7 +114,7 @@ FinancialDocument(
 )
 ```
 
-Source-specific information stays inside `metadata`, so downstream components can consume one consistent interface without losing useful source information.
+Source-specific information stays inside `metadata`, so downstream components consume one consistent interface without losing useful source information.
 
 ```text
              ┌───────────────┐
@@ -135,38 +135,163 @@ Source-specific information stays inside `metadata`, so downstream components ca
 
 # ◇ AI Risk Engine
 
-The planned NLP layer converts financial text and event context into structured risk signals.
+The current risk engine is implemented incrementally as a transparent, testable pipeline:
 
-### 01 · Sentiment
+```text
+Financial Text
+      │
+      ▼
+FinBERT Sentiment
+      │
+      ▼
+Rule-based Event Classification
+      │
+      ▼
+Transparent Impact Scoring
+      │
+      ▼
+Unified Risk Signal
+      │
+      ▼
+Explainable Evidence
+```
 
-Financial-language modeling will produce a normalized sentiment score:
+### 01 · Financial Sentiment
+
+The engine uses **ProsusAI/FinBERT** to classify financial text as positive, neutral or negative.
+
+A normalized sentiment score is calculated as:
 
 ```text
 -1.0  ◄────────────────►  +1.0
 negative                  positive
 ```
 
+Long documents are split into token-bounded chunks and analyzed across the full document rather than relying on a truncated prefix.
+
 ### 02 · Event Classification
 
-The engine will classify financially meaningful events such as:
+The current event classifier is a **transparent rule-based baseline**. It identifies financially meaningful event categories using domain-specific keyword evidence.
+
+Current categories include:
 
 ```text
-Geopolitical     Macroeconomic
-Credit Event     M&A
-Regulatory       Earnings
-Product Launch   Supply Chain
-Management      Other
+Earnings
+M&A
+Credit Event
+Regulatory
+Geopolitical
+Macroeconomic
+Product / Business
+Litigation
+Unknown
 ```
 
-The final taxonomy will be constrained by the available data and evaluation evidence rather than arbitrary labels.
+The classifier returns the selected event, an evidence-based confidence score, and the matched keywords.
+
+This is intentionally interpretable and provides a clear baseline for later evaluation or replacement with a learned classifier.
 
 ### 03 · Impact Scoring
 
-Each detected event will receive a severity/impact signal on a `1–10` scale. The scoring layer is intended to combine model output with transparent financial evidence rather than treating generic sentiment as equivalent to financial impact.
+Each detected event receives a transparent severity signal on a **1–10** scale.
 
-### 04 · Entity & Exposure
+The current scoring layer combines:
 
-The engine identifies the relevant company or organization and maps the event toward financial exposure.
+- Event-type severity
+- Sentiment adjustment
+- Event evidence/confidence
+
+The design explicitly avoids treating generic negative sentiment as equivalent to financial impact.
+
+Conceptually:
+
+```text
+Impact
+  =
+Event Severity
++ Sentiment Adjustment
++ Evidence Adjustment
+```
+
+The result is clipped to the `1–10` range.
+
+### 04 · Unified Risk Signal
+
+The individual outputs are combined into one structured signal containing:
+
+- Entity
+- Sentiment label and score
+- Event type and confidence
+- Matched evidence
+- Impact score
+- Impact components
+- Overall risk level
+
+Current risk bands:
+
+```text
+1–4.99   → LOW
+5–7.99   → MEDIUM
+8–10     → HIGH
+```
+
+### 05 · Explainability
+
+Every generated signal retains the evidence used to produce it.
+
+Example reasoning structure:
+
+```text
+Event classified as earnings.
+Supporting evidence: earnings, revenue, financial results, ...
+Sentiment is broadly neutral (+0.08).
+Calculated event impact is 6.70/10.
+```
+
+---
+
+# ◇ Validated Example: Apple Inc.
+
+The current end-to-end risk engine has been validated against a processed Apple 8-K filing.
+
+```text
+Entity
+Apple Inc.
+
+Sentiment
+Neutral
+Score: +0.0779
+
+Event
+Earnings
+Confidence: 0.4286
+
+Impact
+6.70 / 10
+
+Risk Level
+MEDIUM
+```
+
+The result demonstrates the complete Day 3 pipeline:
+
+```text
+Apple 8-K
+   ↓
+FinBERT
+   ↓
+Neutral sentiment (+0.0779)
+   ↓
+Earnings classification
+   ↓
+Impact = 6.70 / 10
+   ↓
+Medium risk
+   ↓
+Human-readable explanation
+```
+
+The event confidence is an evidence ratio from the current rule-based classifier. It is **not presented as a calibrated probability**.
 
 ---
 
@@ -194,6 +319,8 @@ The intended system moves beyond:
 toward:
 
 > "This event affects this entity, through this financial mechanism, with this level of portfolio exposure."
+
+This is the next major engineering layer after the completed risk engine.
 
 ---
 
@@ -289,9 +416,18 @@ AI-Risk-Engine/
 │   │   ├── test_cleaner.py
 │   │   └── test_processor.py
 │   │
-│   └── pipeline/
+│   ├── pipeline/
+│   │   ├── __init__.py
+│   │   └── unified.py
+│   │
+│   └── risk_engine/
 │       ├── __init__.py
-│       └── unified.py
+│       ├── sentiment.py
+│       ├── event_classifier.py
+│       ├── impact_scorer.py
+│       ├── risk_signal.py
+│       ├── explanation.py
+│       └── test_risk_signal.py
 │
 ├── experiments/
 ├── tests/
@@ -318,16 +454,65 @@ AI-Risk-Engine/
 | SEC → unified document | ✅ |
 | GDELT → unified document | ✅ |
 | Unified document saver | ✅ |
-| Financial sentiment model | ⏳ |
-| Event classifier | ⏳ |
-| Impact scoring | ⏳ |
+| Financial sentiment model | ✅ |
+| Long-document sentiment chunking | ✅ |
+| Event classifier | ✅ |
+| Impact scoring | ✅ |
+| Unified risk signal | ✅ |
+| Explainability | ✅ |
 | Risk propagation | ⏳ |
 | Portfolio stress testing | ⏳ |
 | FastAPI service | ⏳ |
 | Interactive dashboard | ⏳ |
 | Evaluation & benchmarking | ⏳ |
+| Demo | ⏳ |
 
-> **Current milestone:** the repository has a working ingestion, cleaning and normalization foundation. The AI risk and downstream portfolio layers are being built incrementally.
+> **Current milestone:** The ingestion foundation and core AI Risk Engine are complete and validated end-to-end. The next milestone is connecting risk signals to entity/sector exposure and portfolio-level stress scenarios.
+
+---
+
+# ◇ Day-by-Day Build Progress
+
+### Day 1 · Data Foundation
+
+- Initialized the project architecture and Git repository
+- Implemented SEC EDGAR ingestion
+- Extracted filing metadata and 8-K exhibits
+- Added SEC text cleaning and preprocessing
+- Implemented GDELT GKG bulk ingestion
+- Added financial-theme filtering
+- Created the common `FinancialDocument` schema
+- Added unified document persistence
+
+### Day 2 · Data Validation & Normalization
+
+- Validated SEC filing/exhibit extraction
+- Tested GDELT financial-theme filtering
+- Preserved GDELT organizations, themes, source URLs and financial domains
+- Preserved GDELT tone metadata
+- Established reproducible raw/processed data paths
+- Verified both sources against the unified document schema
+
+### Day 3 · AI Risk Engine
+
+- Integrated FinBERT financial sentiment analysis
+- Added long-document chunking
+- Implemented transparent rule-based event classification
+- Added keyword evidence extraction
+- Implemented transparent impact scoring
+- Built the unified risk signal
+- Added human-readable risk explanations
+- Validated the complete pipeline on an Apple 8-K filing
+
+**Validated Apple result:**
+
+```text
+Sentiment: Neutral (+0.0779)
+Event: Earnings
+Confidence: 0.4286
+Impact: 6.70 / 10
+Risk: Medium
+```
 
 ---
 
@@ -337,12 +522,12 @@ AI-Risk-Engine/
 |---|---|
 | Language | Python |
 | Data processing | pandas, NumPy |
-| NLP | Transformers / financial-language models |
-| ML | scikit-learn / PyTorch |
+| NLP | Transformers, FinBERT |
+| ML | PyTorch, scikit-learn |
 | API | FastAPI |
 | Validation | Pydantic |
-| Visualization | Streamlit / Plotly |
-| Data format | JSON / CSV |
+| Visualization | Streamlit, Plotly |
+| Data format | JSON, CSV |
 | Sources | SEC EDGAR, GDELT GKG |
 
 ---
@@ -393,13 +578,19 @@ Windows:
 pip install -r requirements.txt
 ```
 
-### 4. Run the current processing pipeline
+### 4. Run the current preprocessing validation
 
 ```bash
 python -m src.preprocessing.test_processor
 ```
 
-The application entry point will be added as the risk engine and downstream modules are completed.
+### 5. Run the current risk engine validation
+
+```bash
+python -m src.risk_engine.test_risk_signal
+```
+
+The second command runs the current end-to-end risk-signal validation against the processed Apple example.
 
 ---
 
@@ -410,31 +601,52 @@ The project is designed around **public and reproducible financial information**
 ```text
 data/
 ├── raw/
+│   ├── edgar/
+│   └── gdelt/
 ├── processed/
 └── demo/
 ```
 
-Large source archives should not be committed directly to Git if they exceed repository limits. The repository will document how to obtain or reproduce them where required.
+Large source archives should not be committed directly to Git if they exceed repository limits. The repository documents the expected data paths and keeps large GDELT archives excluded from version control.
+
+The GDELT implementation uses publicly available GKG bulk data and preserves the distinction between structured news metadata and actual document text.
 
 ---
 
-# ◇ Planned API
+# ◇ Current Risk Signal Schema
 
-The target API will expose structured risk signals similar to:
+The current implemented signal has the following structure:
 
 ```json
 {
-  "source": "SEC_EDGAR",
-  "timestamp": "2026-07-30",
   "entity": "Apple Inc.",
-  "sentiment_score": -0.32,
-  "event_class": "Earnings",
-  "impact_score": 7,
-  "risk_level": "HIGH"
+  "sentiment": {
+    "label": "neutral",
+    "score": 0.0779
+  },
+  "event": {
+    "type": "earnings",
+    "confidence": 0.4286,
+    "matched_keywords": [
+      "earnings",
+      "revenue",
+      "loss",
+      "financial results",
+      "net income",
+      "eps"
+    ]
+  },
+  "impact": {
+    "score": 6.7,
+    "base_score": 6.0,
+    "sentiment_adjustment": -0.16,
+    "evidence_adjustment": 0.86
+  },
+  "risk_level": "medium"
 }
 ```
 
-The final schema will be frozen after the NLP and impact-scoring layers are implemented.
+The schema will evolve as exposure mapping and portfolio stress testing are implemented.
 
 ---
 
@@ -445,11 +657,15 @@ The final schema will be frozen after the NLP and impact-scoring layers are impl
        ↓
 [✓] Source normalization
        ↓
-[ ] Financial NLP
+[✓] Financial NLP
        ↓
-[ ] Event classification
+[✓] Event classification
        ↓
-[ ] Impact scoring
+[✓] Impact scoring
+       ↓
+[✓] Unified risk signal
+       ↓
+[✓] Explainability
        ↓
 [ ] Risk propagation
        ↓
@@ -464,14 +680,37 @@ The final schema will be frozen after the NLP and impact-scoring layers are impl
 
 ---
 
+# ◇ Next Milestone
+
+The next development phase focuses on **Risk Propagation**:
+
+```text
+Risk Signal
+     ↓
+Entity Exposure
+     ↓
+Sector Exposure
+     ↓
+Portfolio Mapping
+     ↓
+Scenario Shock
+     ↓
+Portfolio Stress
+```
+
+This is where the project moves from **"understanding financial text"** toward **"understanding how financial events can propagate through a portfolio."**
+
+---
+
 <div align="center">
 
 ## ◈ From documents to decisions
 
 **AI Risk Engine** is an explainable bridge between
+
 **unstructured financial information** and **structured portfolio risk analysis**.
 
-<br/>
+<br>
 
 *Built for the S&P Global × CRISIL Campus Hackathon 2026*
 
