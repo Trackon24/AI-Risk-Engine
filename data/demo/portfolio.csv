@@ -1,0 +1,7 @@
+entity,ticker,sector,weight
+Apple Inc.,AAPL,Technology,0.25
+Microsoft Corporation,MSFT,Technology,0.20
+JPMorgan Chase & Co.,JPM,Financials,0.15
+Exxon Mobil Corporation,XOM,Energy,0.15
+NVIDIA Corporation,NVDA,Technology,0.15
+Coca-Cola Company,KO,Consumer Staples,0.10
