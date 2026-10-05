@@ -438,6 +438,28 @@ The event confidence is an evidence ratio from the current rule-based classifier
 
 ---
 
+# ◇ Two-Source Risk Intelligence
+
+The current engine combines company-level filing risk from **SEC EDGAR** with external context from **GDELT GKG**.
+
+SEC remains the primary company-risk signal. GDELT contributes a deliberately bounded external-context adjustment using organization mentions, article counts, financial domains, and GDELT tone.
+
+### Validated Apple result
+
+```text
+SEC company impact       : 6.70 / 10
+GDELT records found      : 6
+GDELT average tone       : +0.4904
+GDELT tone score         : +0.0490
+External adjustment      : +0.02
+Combined impact          : 6.72 / 10
+Combined risk            : MEDIUM
+```
+
+The GDELT tone is **not treated as equivalent to FinBERT sentiment**. It remains an external structured-context signal.
+
+---
+
 # ◇ Differentiator: Risk Propagation
 
 A headline does not necessarily stop at the company mentioned in the headline.
@@ -474,7 +496,7 @@ toward:
 
 *> "This event affects this entity, through this financial mechanism, with this level of portfolio exposure."*
 
-This is the next major engineering layer after the completed risk engine.
+Risk propagation is now implemented as the bridge between entity-level risk and portfolio-level exposure.
 
 ---
 
@@ -483,45 +505,49 @@ This is the next major engineering layer after the completed risk engine.
 The selected downstream module is **portfolio stress testing**.
 
 ```text
-
 Detected Event
-
-      │
-
-      ▼
-
+      │
+      ▼
 Risk Signal
-
-      │
-
-      ▼
-
+      │
+      ▼
 Exposure Mapping
-
-      │
-
-      ▼
-
+      │
+      ▼
+Sector Propagation
+      │
+      ▼
 Scenario Shock
-
-      │
-
-      ▼
-
+      │
+      ▼
 Portfolio Impact
-
 ```
 
-The stress-testing output is intended as **scenario analysis**, not a prediction of future market prices.
+The current implementation supports three analyst-defined counterfactual scenarios:
 
-The final interface will allow users to explore counterfactual questions such as:
+| Scenario | Entity Shock |
+|---|---:|
+| Mild | -4% |
+| Moderate | -8% |
+| Severe | -15% |
+
+### Validated Apple portfolio stress test
+
+For the current six-holding demo portfolio, the validated results are:
+
+| Scenario | Direct Impact | Indirect Impact | Portfolio Impact |
+|---|---:|---:|---:|
+| Mild | -1.00% | -0.42% | **-1.42%** |
+| Moderate | -2.00% | -0.84% | **-2.84%** |
+| Severe | -3.75% | -1.58% | **-5.32%** |
+
+These are **counterfactual scenario estimates**, not observed losses or market predictions. The current baseline uses the affected entity's portfolio weight and a transparent same-sector propagation factor of `0.30`.
+
+The future dashboard will allow users to explore counterfactual questions such as:
 
 ```text
-
 "What happens to the portfolio
-
- if this event produces a larger shock?"
-
+if this event produces a larger shock?"
 ```
 
 ---
@@ -583,91 +609,71 @@ This makes the system easier to audit, debug and defend.
 # ◇ Current Project Structure
 
 ```text
-
 AI-Risk-Engine/
-
 │
-
 ├── data/
-
-│   ├── raw/
-
-│   │   ├── gdelt/
-
-│   │   └── edgar/
-
-│   ├── processed/
-
-│   └── demo/
-
+│   ├── raw/
+│   │   ├── gdelt/
+│   │   └── edgar/
+│   ├── processed/
+│   └── demo/
+│       └── portfolio.csv
 │
-
 ├── src/
-
-│   ├── ingestion/
-
-│   │   ├── edgar_loader.py
-
-│   │   ├── gdelt_gkg_loader.py
-
-│   │   ├── schema.py
-
-│   │   └── test_edgar.py
-
-│   │
-
-│   ├── preprocessing/
-
-│   │   ├── cleaner.py
-
-│   │   ├── processor.py
-
-│   │   ├── test_cleaner.py
-
-│   │   └── test_processor.py
-
-│   │
-
-│   ├── pipeline/
-
-│   │   ├── __init__.py
-
-│   │   └── unified.py
-
-│   │
-
-│   └── risk_engine/
-
-│       ├── __init__.py
-
-│       ├── sentiment.py
-
-│       ├── event_classifier.py
-
-│       ├── impact_scorer.py
-
-│       ├── risk_signal.py
-
-│       ├── explanation.py
-
-│       └── test_risk_signal.py
-
+│   ├── ingestion/
+│   │   ├── edgar_loader.py
+│   │   ├── gdelt_gkg_loader.py
+│   │   ├── schema.py
+│   │   └── test_edgar.py
+│   │
+│   ├── preprocessing/
+│   │   ├── cleaner.py
+│   │   ├── processor.py
+│   │   ├── test_cleaner.py
+│   │   └── test_processor.py
+│   │
+│   ├── pipeline/
+│   │   ├── __init__.py
+│   │   └── unified.py
+│   │
+│   ├── risk_engine/
+│   │   ├── __init__.py
+│   │   ├── sentiment.py
+│   │   ├── event_classifier.py
+│   │   ├── impact_scorer.py
+│   │   ├── risk_signal.py
+│   │   ├── explanation.py
+│   │   ├── gdelt_context.py
+│   │   ├── combined_risk.py
+│   │   └── test_risk_signal.py
+│   │
+│   └── stress_testing/
+│       ├── __init__.py
+│       ├── portfolio.py
+│       ├── exposure.py
+│       ├── propagation.py
+│       ├── scenarios.py
+│       ├── stress_engine.py
+│       ├── risk_stress.py
+│       ├── test_portfolio.py
+│       ├── test_exposure.py
+│       ├── test_propagation.py
+│       ├── test_scenarios.py
+│       ├── test_stress_engine.py
+│       ├── test_validation.py
+│       ├── test_risk_stress.py
+│       ├── test_gdelt_context.py
+│       ├── test_combined_risk.py
+│       ├── test_combined_stress.py
+│       └── test_end_to_end.py
 │
-
 ├── experiments/
-
 ├── tests/
-
 ├── docs/
-
 ├── README.md
-
 ├── requirements.txt
-
 ├── .gitignore
-
 └── LICENSE
-
 ```
 
 ---
@@ -710,9 +716,13 @@ AI-Risk-Engine/
 
 | Explainability | ✅ |
 
-| Risk propagation | ⏳ |
+| Risk propagation | ✅ |
 
-| Portfolio stress testing | ⏳ |
+| Portfolio stress testing | ✅ |
+
+| SEC + GDELT combined risk | ✅ |
+
+| Risk → stress integration | ✅ |
 
 | FastAPI service | ⏳ |
 
@@ -722,7 +732,7 @@ AI-Risk-Engine/
 
 | Demo | ⏳ |
 
-_>&#x20;_**Current milestone:**_&#x20;The ingestion foundation and core AI Risk Engine are complete and validated end-to-end. The next milestone is connecting risk signals to entity/sector exposure and portfolio-level stress scenarios._
+_>&#x20;_**Current milestone:**_&#x20;Two-source risk intelligence and portfolio stress testing are implemented and validated end-to-end. The next milestone is evaluation, API/dashboard integration, and final demonstration._
 
 ---
 
@@ -794,6 +804,43 @@ Risk: Medium
 
 ```
 
+### Day 4 · Two-Source Risk & Portfolio Stress Testing
+
+- Added a reproducible demo portfolio
+- Implemented portfolio validation and loading
+- Implemented direct entity exposure mapping
+- Implemented same-sector risk propagation
+- Added mild, moderate and severe stress scenarios
+- Built the portfolio stress engine
+- Connected risk signals to portfolio stress testing
+- Added GDELT external-context analysis
+- Combined SEC company risk with bounded GDELT context
+- Added two-source end-to-end validation
+- Validated the complete SEC → GDELT → combined risk → stress workflow
+
+**Validated Apple two-source result:**
+
+```text
+SEC Impact:          6.70 / 10
+GDELT Records:       6
+GDELT Tone:          +0.4904
+External Adjustment: +0.02
+Combined Impact:     6.72 / 10
+Combined Risk:       Medium
+```
+
+**Validated portfolio stress scenarios:**
+
+| Scenario | Shock | Direct Impact | Indirect Impact | Portfolio Impact |
+|---|---:|---:|---:|---:|
+| Mild | -4.00% | -1.00% | -0.42% | **-1.42%** |
+| Moderate | -8.00% | -2.00% | -0.84% | **-2.84%** |
+| Severe | -15.00% | -3.75% | -1.58% | **-5.32%** |
+
+These are **counterfactual scenario estimates**, not observed losses or market predictions. The current baseline uses the entity portfolio weight and a transparent same-sector propagation factor of `0.30`.
+
+---
+
 ---
 
 # ◇ Technology Stack
@@ -854,7 +901,7 @@ Each major layer is independently testable and understandable.
 
 git clone <repository-url>
 
-*cd* AI-Risk-Engine
+cd AI-Risk-Engine
 
 ```
 
@@ -899,6 +946,17 @@ python -m src.risk_engine.test_risk_signal
 ```
 
 The second command runs the current end-to-end risk-signal validation against the processed Apple example.
+
+### 6. Run the two-source risk → stress test
+
+```bash
+
+python -m src.stress_testing.test_combined_stress
+
+```
+
+This validates the SEC risk signal, GDELT external context, combined risk signal, and portfolio stress scenarios end-to-end.
+
 
 ---
 
@@ -988,97 +1046,59 @@ The current implemented signal has the following structure:
 
 ```
 
-The schema will evolve as exposure mapping and portfolio stress testing are implemented.
+The company-level schema is implemented; the two-source and stress-testing layers additionally retain external context, combined impact, and scenario results.
 
 ---
 
 # ◇ Roadmap
 
 ```text
-
 [✓] Data ingestion
-
-       ↓
-
+      ↓
 [✓] Source normalization
-
-       ↓
-
+      ↓
 [✓] Financial NLP
-
-       ↓
-
+      ↓
 [✓] Event classification
-
-       ↓
-
+      ↓
 [✓] Impact scoring
-
-       ↓
-
+      ↓
 [✓] Unified risk signal
-
-       ↓
-
+      ↓
 [✓] Explainability
-
-       ↓
-
-[ ] Risk propagation
-
-       ↓
-
-[ ] Portfolio stress testing
-
-       ↓
-
+      ↓
+[✓] Risk propagation
+      ↓
+[✓] Portfolio stress testing
+      ↓
+[✓] Two-source risk integration
+      ↓
+[ ] Evaluation & benchmarking
+      ↓
 [ ] API + dashboard
-
-       ↓
-
-[ ] Evaluation
-
-       ↓
-
-[ ] Demo
-
+      ↓
+[ ] Final demo
 ```
 
 ---
 
 # ◇ Next Milestone
 
-The next development phase focuses on **Risk Propagation**:
+The next development phase focuses on **Evaluation & Decision-Facing Delivery**:
 
 ```text
-
-Risk Signal
-
-     ↓
-
-Entity Exposure
-
-     ↓
-
-Sector Exposure
-
-     ↓
-
-Portfolio Mapping
-
-     ↓
-
-Scenario Shock
-
-     ↓
-
-Portfolio Stress
-
+Risk Engine
+     ↓
+Evaluation & Benchmarking
+     ↓
+API / Dashboard
+     ↓
+Decision-Facing Demo
+     ↓
+Final Presentation
 ```
 
-This is where the project moves from **"understanding financial text"** toward **"understanding how financial events can propagate through a portfolio."**
-
----
+This phase moves the project from a validated engineering pipeline toward measurable, decision-facing delivery.
 
 <div align="center">
 
