@@ -1,0 +1,21 @@
+text,label
+"The company reported quarterly earnings and revenue results",earnings
+"The company announced its quarterly financial results",earnings
+"The company agreed to acquire another technology company",m&a
+"The acquisition is expected to close later this year",m&a
+"The company announced a new debt restructuring plan",credit_event
+"The company received a regulatory enforcement notice",regulatory
+"New government regulations will affect the company's operations",regulatory
+"Escalating geopolitical tensions disrupted the company's supply chain",geopolitical
+"New trade restrictions were announced between the two countries",geopolitical
+"Rising interest rates are expected to affect economic growth",macroeconomic
+"Inflation increased significantly across the economy",macroeconomic
+"The company launched a new product for consumers",product_business
+"The company introduced a new product line",product_business
+"The company is facing a lawsuit over its business practices",litigation
+"Investors filed a lawsuit against the company",litigation
+"The company announced plans to expand its business operations",product_business
+"The company reported revenue and net income for the quarter",earnings
+"The company entered into an agreement to acquire a competitor",m&a
+"The government imposed new compliance requirements on financial institutions",regulatory
+"The economic slowdown is expected to reduce consumer spending",macroeconomic

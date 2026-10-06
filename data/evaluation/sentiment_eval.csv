@@ -1,0 +1,16 @@
+text,label
+"Apple reported record quarterly revenue and strong earnings growth",positive
+"The company reported strong profit growth and higher revenue",positive
+"Operating results improved significantly during the quarter",positive
+"The company exceeded its revenue expectations",positive
+"Management reported strong demand and improved margins",positive
+"Revenue declined sharply and the company reported a larger loss",negative
+"The company suffered significant financial losses during the quarter",negative
+"Profit fell substantially compared with the previous year",negative
+"Management warned of weaker demand and declining revenue",negative
+"The company reported a significant deterioration in operating results",negative
+"The company maintained its existing financial guidance",neutral
+"Management did not change its full-year outlook",neutral
+"The company reported results broadly in line with expectations",neutral
+"The filing described the company's current financial position",neutral
+"The company announced its quarterly results today",neutral

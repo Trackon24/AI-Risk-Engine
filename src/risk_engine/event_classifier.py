@@ -36,6 +36,7 @@ class FinancialEventClassifier:
             "sanction",
             "antitrust",
             "government action",
+            "regulations",
         ],
         "geopolitical": [
             "war",
@@ -54,6 +55,7 @@ class FinancialEventClassifier:
             "unemployment",
             "gdp",
             "economic growth",
+            "economic slowdown",
         ],
         "product_business": [
             "product launch",
@@ -62,6 +64,7 @@ class FinancialEventClassifier:
             "expansion",
             "partnership",
             "business segment",
+            "expand",
         ],
         "litigation": [
             "lawsuit",
