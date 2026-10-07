@@ -3,3 +3,6 @@ numpy
 requests
 python-dotenv
 beautifulsoup4
+fastapi
+uvicorn
+streamlit
