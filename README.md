@@ -4,17 +4,17 @@
 
 ### Financial Text → Risk Signals → Portfolio Stress
 
-******An explainable AI/NLP risk intelligence engine for financial events******
+********An explainable AI/NLP risk intelligence engine for financial events********
 
-![Python](https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Python](https\://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white)
 
-![NLP](https://img.shields.io/badge/NLP-Financial_Text-6C5CE7?style=for-the-badge)
+![NLP](https\://img.shields.io/badge/NLP-Financial_Text-6C5CE7?style=for-the-badge)
 
-![FastAPI](https://img.shields.io/badge/API-FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![FastAPI](https\://img.shields.io/badge/API-FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
 
-![Status](https://img.shields.io/badge/Status-In_Development-F59E0B?style=for-the-badge)
+![Status](https\://img.shields.io/badge/Status-In_Development-F59E0B?style=for-the-badge)
 
-******Turn unstructured financial information into structured, explainable risk signals for downstream portfolio stress analysis.******
+********Turn unstructured financial information into structured, explainable risk signals for downstream portfolio stress analysis.********
 
 </div>
 
@@ -24,7 +24,7 @@
 
 Financial risk rarely arrives as a neat number. It appears as an earnings announcement, regulatory filing, geopolitical development, supply-chain disruption, or macroeconomic signal.
 
-******AI Risk Engine****** transforms these signals into a machine-readable risk layer while preserving the evidence behind each result.
+********AI Risk Engine******** transforms these signals into a machine-readable risk layer while preserving the evidence behind each result.
 
 ```text
 
@@ -92,13 +92,13 @@ Financial risk rarely arrives as a neat number. It appears as an earnings announ
 
 Traditional financial analysis can require analysts to manually read large volumes of text before answering:
 
-- ******What happened?******
+- ********What happened?********
 
-- ******Who is exposed?******
+- ********Who is exposed?********
 
-- ******How severe is it?******
+- ********How severe is it?********
 
-- ******What could the event mean for a portfolio?******
+- ********What could the event mean for a portfolio?********
 
 The project automates the first layer of this workflow and converts unstructured information into structured signals that feed a downstream stress-testing module.
 
@@ -109,12 +109,9 @@ The project automates the first layer of this workflow and converts unstructured
 The current ingestion pipeline uses two complementary public sources.
 
 | Source | Contribution | Current role |
-
 |---|---|---|
-
-| ******SEC EDGAR****** | Company filings and disclosures | Primary source of financial text |
-
-| ******GDELT GKG****** | Global news metadata, financial themes, organizations and tone | External event context |
+| ********SEC EDGAR******** | Company filings and disclosures | Primary source of financial text |
+| ********GDELT GKG******** | Global news metadata, financial themes, organizations and tone | External event context |
 
 ### SEC EDGAR
 
@@ -124,7 +121,7 @@ The SEC pipeline extracts filing metadata and substantive filing/exhibit text in
 
 GDELT's Global Knowledge Graph provides structured context around news coverage, including financial themes, organizations, sources, URLs, article counts and tone.
 
-The implementation deliberately does ******not****** fabricate article body text from GDELT metadata:
+The implementation deliberately does ********not******** fabricate article body text from GDELT metadata:
 
 ```text
 
@@ -242,7 +239,7 @@ Explainable Evidence
 
 ### 01 · Financial Sentiment
 
-The engine uses ******ProsusAI/FinBERT****** to classify financial text as positive, neutral or negative.
+The engine uses ********ProsusAI/FinBERT******** to classify financial text as positive, neutral or negative.
 
 A normalized sentiment score is calculated as:
 
@@ -258,7 +255,7 @@ Long documents are split into token-bounded chunks and analyzed across the full 
 
 ### 02 · Event Classification
 
-The current event classifier is a ******transparent rule-based baseline******. It identifies financially meaningful event categories using domain-specific keyword evidence.
+The current event classifier is a ********transparent rule-based baseline********. It identifies financially meaningful event categories using domain-specific keyword evidence.
 
 Current categories include:
 
@@ -290,7 +287,7 @@ This is intentionally interpretable and provides a clear baseline for later eval
 
 ### 03 · Impact Scoring
 
-Each detected event receives a transparent severity signal on a ******1–10****** scale.
+Each detected event receives a transparent severity signal on a ********1–10******** scale.
 
 The current scoring layer combines:
 
@@ -312,9 +309,9 @@ Impact
 
 Event Severity
 
-\+ Sentiment Adjustment
+\\+ Sentiment Adjustment
 
-\+ Evidence Adjustment
+\\+ Evidence Adjustment
 
 ```
 
@@ -422,7 +419,7 @@ Earnings classification
 
    ↓
 
-Impact = 6.70 / 10
+Impact = 6.58 / 10
 
    ↓
 
@@ -434,13 +431,13 @@ Human-readable explanation
 
 ```
 
-The event confidence is an evidence ratio from the current rule-based classifier. It is ******not presented as a calibrated probability******.
+The event confidence is an evidence ratio from the current rule-based classifier. It is ********not presented as a calibrated probability********.
 
 ---
 
 # ◇ Two-Source Risk Intelligence
 
-The current engine combines company-level filing risk from ******SEC EDGAR****** with external context from ******GDELT GKG******.
+The current engine combines company-level filing risk from ********SEC EDGAR******** with external context from ********GDELT GKG********.
 
 SEC remains the primary company-risk signal. GDELT contributes a deliberately bounded external-context adjustment using organization mentions, article counts, financial domains, and GDELT tone.
 
@@ -464,7 +461,7 @@ Combined risk            : MEDIUM
 
 ```
 
-The GDELT tone is ******not treated as equivalent to FinBERT sentiment******. It remains an external structured-context signal.
+The GDELT tone is ********not treated as equivalent to FinBERT sentiment********. It remains an external structured-context signal.
 
 ---
 
@@ -498,11 +495,11 @@ PORTFOLIO EXPOSURE
 
 The intended system moves beyond:
 
-***> "This article is negative."***
+*******> "This article is negative."*******
 
 toward:
 
-***> "This event affects this entity, through this financial mechanism, with this level of portfolio exposure."***
+*******> "This event affects this entity, through this financial mechanism, with this level of portfolio exposure."*******
 
 Risk propagation is now implemented as the bridge between entity-level risk and portfolio-level exposure.
 
@@ -510,7 +507,7 @@ Risk propagation is now implemented as the bridge between entity-level risk and 
 
 # ◇ Downstream Module: Strategic Event-Driven Stress Testing
 
-The selected downstream module is ******portfolio stress testing******.
+The selected downstream module is ********portfolio stress testing********.
 
 ```text
 
@@ -551,13 +548,9 @@ Portfolio Impact
 The current implementation supports three analyst-defined counterfactual scenarios:
 
 | Scenario | Entity Shock |
-
 |---|---:|
-
 | Mild | -4% |
-
 | Moderate | -8% |
-
 | Severe | -15% |
 
 ### Validated Apple portfolio stress test
@@ -565,16 +558,12 @@ The current implementation supports three analyst-defined counterfactual scenari
 For the current six-holding demo portfolio, the validated results are:
 
 | Scenario | Direct Impact | Indirect Impact | Portfolio Impact |
-
 |---|---:|---:|---:|
+| Mild | -1.00% | -0.42% | ********-1.42%******** |
+| Moderate | -2.00% | -0.84% | ********-2.84%******** |
+| Severe | -3.75% | -1.58% | ********-5.32%******** |
 
-| Mild | -1.00% | -0.42% | ******-1.42%****** |
-
-| Moderate | -2.00% | -0.84% | ******-2.84%****** |
-
-| Severe | -3.75% | -1.58% | ******-5.32%****** |
-
-These are ******counterfactual scenario estimates******, not observed losses or market predictions. The current baseline uses the affected entity's portfolio weight and a transparent same-sector propagation factor of `0.30`.
+These are ********counterfactual scenario estimates********, not observed losses or market predictions. The current baseline uses the affected entity's portfolio weight and a transparent same-sector propagation factor of `0.30`.
 
 The future dashboard will allow users to explore counterfactual questions such as:
 
@@ -592,7 +581,7 @@ if this event produces a larger shock?"
 
 A central design principle is:
 
-*__>&#x20;__*****Every important risk signal should have evidence behind it.****
+_***_> _*********Every important risk signal should have evidence behind it.******
 
 Rather than exposing only:
 
@@ -783,58 +772,33 @@ AI-Risk-Engine/
 # ◇ Current Build Status
 
 | Component | Status |
-
 |---|:---:|
-
 | Project structure | ✅ |
-
 | SEC EDGAR ingestion | ✅ |
-
 | SEC filing/exhibit extraction | ✅ |
-
 | SEC text cleaning | ✅ |
-
 | GDELT GKG ingestion | ✅ |
-
 | GDELT financial-theme filtering | ✅ |
-
 | Common `FinancialDocument` schema | ✅ |
-
 | SEC → unified document | ✅ |
-
 | GDELT → unified document | ✅ |
-
 | Unified document saver | ✅ |
-
 | Financial sentiment model | ✅ |
-
 | Long-document sentiment chunking | ✅ |
-
 | Event classifier | ✅ |
-
 | Impact scoring | ✅ |
-
 | Unified risk signal | ✅ |
-
 | Explainability | ✅ |
-
 | Risk propagation | ✅ |
-
 | Portfolio stress testing | ✅ |
-
 | SEC + GDELT combined risk | ✅ |
-
 | Risk → stress integration | ✅ |
-
-| FastAPI service | ⏳ |
-
-| Interactive dashboard | ⏳ |
-
+| FastAPI service | ✅ |
+| Interactive dashboard | ✅ |
 | Evaluation & sanity checks | ✅ |
-
 | Demo | ⏳ |
 
-*__>&#x20;__*****Current milestone:*****__&#x20;Two-source risk intelligence and portfolio stress testing are implemented and validated end-to-end. The next milestone is evaluation, API/dashboard integration, and final demonstration.__*
+**Current milestone:** API, dashboard, two-source risk intelligence and portfolio stress testing are implemented and validated end-to-end. The remaining phase is final demonstration, presentation and submission preparation.
 
 ---
 
@@ -890,7 +854,7 @@ AI-Risk-Engine/
 
 - Validated the complete pipeline on an Apple 8-K filing
 
-******Validated Apple result:******
+********Validated Apple result:********
 
 ```text
 
@@ -900,7 +864,7 @@ Event: Earnings
 
 Confidence: 0.4286
 
-Impact: 6.70 / 10
+Impact: 6.58 / 10
 
 Risk: Medium
 
@@ -930,7 +894,7 @@ Risk: Medium
 
 - Validated the complete SEC → GDELT → combined risk → stress workflow
 
-******Validated Apple two-source result:******
+********Validated Apple two-source result:********
 
 ```text
 
@@ -948,19 +912,15 @@ Combined Risk:       Medium
 
 ```
 
-******Validated portfolio stress scenarios:******
+********Validated portfolio stress scenarios:********
 
 | Scenario | Shock | Direct Impact | Indirect Impact | Portfolio Impact |
-
 |---|---:|---:|---:|---:|
+| Mild | -4.00% | -1.00% | -0.42% | ********-1.42%******** |
+| Moderate | -8.00% | -2.00% | -0.84% | ********-2.84%******** |
+| Severe | -15.00% | -3.75% | -1.58% | ********-5.32%******** |
 
-| Mild | -4.00% | -1.00% | -0.42% | ******-1.42%****** |
-
-| Moderate | -8.00% | -2.00% | -0.84% | ******-2.84%****** |
-
-| Severe | -15.00% | -3.75% | -1.58% | ******-5.32%****** |
-
-These are ******counterfactual scenario estimates******, not observed losses or market predictions. The current baseline uses the entity portfolio weight and a transparent same-sector propagation factor of `0.30`.
+These are ********counterfactual scenario estimates********, not observed losses or market predictions. The current baseline uses the entity portfolio weight and a transparent same-sector propagation factor of `0.30`.
 
 ---
 
@@ -969,93 +929,163 @@ These are ******counterfactual scenario estimates******, not observed losses or 
 ### Day 5 · Evaluation & Model Sanity Checks
 
 - Added manually labelled sentiment evaluation examples
+
 - Evaluated FinBERT sentiment classification on 15 examples
+
 - Added manually labelled event classification examples
+
 - Evaluated the rule-based event classifier on 20 examples
+
 - Added impact scorer validation for severity ordering, sentiment direction, confidence and score bounds
+
 - Added portfolio stress-engine validation for scenario severity, direct exposure, sector propagation, unrelated-sector isolation and impact reconciliation
+
 - Kept evaluation data inside `data/evaluation/` for reproducibility
+
 - Validated the evaluation suite against the implemented risk and stress-testing components
 
-**Sentiment evaluation result:**
+****Sentiment evaluation result:****
 
 ```text
+
 Examples: 15
+
 Correct: 13
+
 Incorrect: 2
+
 Accuracy: 86.67%
+
 Macro F1: 0.8611
+
 ```
 
 The two sentiment errors were neutral financial statements that FinBERT interpreted as positive. This is treated as a limitation of the current model rather than hidden or manually corrected.
 
-**Event classification result:**
+****Event classification result:****
 
 ```text
+
 Examples: 20
+
 Correct: 20
+
 Incorrect: 0
+
 Accuracy: 100.00%
+
 ```
 
 This is a small manually labelled sanity-check set, not a claim of generalization performance.
 
-**Impact and stress validation:**
+****Impact and stress validation:****
 
 ```text
+
 Impact scorer: PASS
+
 Stress engine: PASS
+
 ```
 
 The stress engine checks that more severe scenarios produce larger portfolio losses, direct exposure is calculated from portfolio weight, same-sector propagation uses the configured factor, unrelated sectors receive no propagated shock, and direct plus indirect impact reconciles with total portfolio impact.
 
 ---
 
+### Day 6 · API, Dashboard & Decision-Facing Delivery
+
+- Added a FastAPI service for programmatic risk analysis
+- Added `/risk` for financial text risk analysis
+- Added `/combined-risk` for SEC company risk with bounded GDELT external context
+- Added `/stress` for portfolio stress scenarios
+- Added FastAPI interactive API documentation
+- Added an interactive Streamlit dashboard
+- Connected the dashboard to the risk engine, GDELT context and portfolio stress engine
+- Added SEC filing selection and manual-text analysis
+- Added risk overview, evidence, external context, exposure and stress-testing views
+- Added decorative dashboard UI for decision-facing presentation
+- Validated the dashboard using a real Apple 8-K filing and an additional filing with a different event classification
+
+**Current Day 6 validated workflow:**
+
+```text
+SEC Filing / Manual Text
+        ↓
+Financial Risk Engine
+        ↓
+Company Risk Signal
+        ↓
+GDELT External Context
+        ↓
+Combined Risk
+        ↓
+Portfolio Exposure
+        ↓
+Sector Propagation
+        ↓
+Mild / Moderate / Severe Stress Scenarios
+```
+
+**Current validated Apple result:**
+
+```text
+SEC company impact: 6.58 / 10
+GDELT records: 6
+GDELT average tone: +0.4904
+GDELT tone score: +0.0490
+External adjustment: +0.02
+Combined impact: 6.60 / 10
+Combined risk: Medium
+```
+
+**Validated portfolio stress scenarios:**
+
+| Scenario | Shock | Direct Impact | Indirect Impact | Portfolio Impact |
+|---|---:|---:|---:|---:|
+| Mild | -4.00% | -1.00% | -0.42% | **-1.42%** |
+| Moderate | -8.00% | -2.00% | -0.84% | **-2.84%** |
+| Severe | -15.00% | -3.75% | -1.58% | **-5.32%** |
+
+These are counterfactual scenario estimates, not observed losses or market predictions.
+
+# ◇ Technology Stack
+---
+
 # ◇ Technology Stack
 
 | Layer | Technology |
-
 |---|---|
-
 | Language | Python |
-
 | Data processing | pandas, NumPy |
-
 | NLP | Transformers, FinBERT |
-
 | ML | PyTorch, scikit-learn |
-
 | API | FastAPI |
-
 | Validation | Pydantic |
-
 | Visualization | Streamlit, Plotly |
-
 | Data format | JSON, CSV |
-
 | Sources | SEC EDGAR, GDELT GKG |
 
 ---
 
 # ◇ Design Principles
 
-******01 · Evidence first******
+********01 · Evidence first********
 
 Models should operate on traceable source information.
 
-******02 · Financial context over generic sentiment******
+********02 · Financial context over generic sentiment********
 
 A negative sentence is not automatically a high-risk event.
 
-******03 · Explainable outputs******
+********03 · Explainable outputs********
 
 The system should show why a signal was produced.
 
-******04 · Scenario, not prophecy******
+********04 · Scenario, not prophecy********
 
 Portfolio stress testing explores hypothetical shocks rather than claiming to predict markets.
 
-******05 · Incremental engineering******
+********05 · Incremental engineering********
 
 Each major layer is independently testable and understandable.
 
@@ -1129,7 +1159,7 @@ This validates the SEC risk signal, GDELT external context, combined risk signal
 
 # ◇ Data & Reproducibility
 
-The project is designed around ******public and reproducible financial information******. No confidential client information is required.
+The project is designed around ********public and reproducible financial information********. No confidential client information is required.
 
 ```text
 
@@ -1265,7 +1295,7 @@ The company-level schema is implemented; the two-source and stress-testing layer
 
       ↓
 
-[ ] API + dashboard
+[✓] API + dashboard
 
       ↓
 
@@ -1277,7 +1307,7 @@ The company-level schema is implemented; the two-source and stress-testing layer
 
 # ◇ Next Milestone
 
-The next development phase focuses on ******API, Dashboard & Decision-Facing Delivery******:
+The next development phase focuses on ********API, Dashboard & Decision-Facing Delivery********:
 
 ```text
 
@@ -1307,12 +1337,12 @@ This phase moves the project from a validated engineering pipeline toward an int
 
 ## ◈ From documents to decisions
 
-******AI Risk Engine****** is an explainable bridge between
+********AI Risk Engine******** is an explainable bridge between
 
-******unstructured financial information****** and ******structured portfolio risk analysis******.
+********unstructured financial information******** and ********structured portfolio risk analysis********.
 
 <br>
 
-******Built for the S&P Global × CRISIL Campus Hackathon 2026******
+********Built for the S&P Global × CRISIL Campus Hackathon 2026********
 
 </div>
