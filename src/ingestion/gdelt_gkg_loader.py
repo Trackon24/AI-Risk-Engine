@@ -75,12 +75,18 @@ def split_gdelt_field(value: str) -> list[str]:
         if item.strip()
     ]
 
+
+
 def read_gkg_records(
     zip_path: str = ZIP_PATH,
 ) -> Iterator[Dict]:
 
-    with zipfile.ZipFile(zip_path, "r") as archive:
+    import os
 
+    if not os.path.exists(zip_path):
+        return
+
+    with zipfile.ZipFile(zip_path, "r") as archive:
         csv_name = archive.namelist()[0]
 
         with archive.open(csv_name) as file:
