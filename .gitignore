@@ -42,3 +42,9 @@ Thumbs.db
 
 # Large GDELT source archives
 data/raw/gdelt/*.zip
+
+# Additional environment and credential protection
+.env.*
+!.env.example
+secrets/
+credentials.json
