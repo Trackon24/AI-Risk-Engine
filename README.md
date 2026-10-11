@@ -188,6 +188,36 @@ The demo portfolio is stored in `data/demo/portfolio.csv`. It is a sample portfo
 
 ## 4. Quickstart & Installation
 
+### GDELT External Data Setup
+
+The AI Risk Engine uses the GDELT Global Knowledge Graph (GKG) dataset to enrich company-level risk signals with external news context. The GDELT archive is excluded from Git because it is a large data file.
+
+**Required file:** `20260930.gkg.csv.zip`
+
+#### Setup Instructions
+
+1. Download the required GDELT GKG archive from the [GDELT data archive](https://data.gdeltproject.org/gdeltv2/).
+2. Create the following directory in the project root if it does not already exist:
+
+   ```text
+   data/raw/gdelt/
+   ```
+
+3. Place the downloaded archive in that directory with the exact filename:
+
+   ```text
+   data/raw/gdelt/20260930.gkg.csv.zip
+   ```
+
+4. Install the project dependencies and start the application using the Quickstart instructions above.
+
+#### Important Notes
+
+- The GKG archive is excluded from Git and must be downloaded separately after cloning the repository.
+- The GKG dataset is different from the GDELT Events export dataset (`.export.CSV.zip`).
+- Without the required local GKG archive, external market context may return zero records. This indicates that the dataset is unavailable locally, not that no relevant external news exists.
+- The loader currently expects the exact filename specified above. If you use a different archive date, update the loader configuration accordingly.
+
 ### Requirements
 
 - Python 3.10 or a compatible Python version for the installed dependencies
