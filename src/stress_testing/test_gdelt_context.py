@@ -1,5 +1,5 @@
 from src.ingestion.gdelt_gkg_loader import read_gkg_records
-from src.stress_testing.gdelt_context import GDELTContextAnalyzer
+from src.risk_engine.gdelt_context import GDELTContextAnalyzer
 
 
 def main():

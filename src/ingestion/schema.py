@@ -12,7 +12,7 @@ class FinancialDocument:
 
     entity: Optional[str] = None
     document_type: Optional[str] = None
+    exhibits: list = field(default_factory=list)
 
     text_available: bool = False
-
     metadata: dict = field(default_factory=dict)
