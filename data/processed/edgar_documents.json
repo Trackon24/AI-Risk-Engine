@@ -7,6 +7,7 @@
     "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019326000018/aapl-20260730.htm",
     "entity": "Apple Inc.",
     "document_type": "8-K",
+    "exhibits": [],
     "text_available": true,
     "metadata": {
       "text_length": 10456,
@@ -21,6 +22,7 @@
     "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019326000011/aapl-20260430.htm",
     "entity": "Apple Inc.",
     "document_type": "8-K",
+    "exhibits": [],
     "text_available": true,
     "metadata": {
       "text_length": 10787,
@@ -35,6 +37,7 @@
     "url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126015711/ef20071035_8k.htm",
     "entity": "Apple Inc.",
     "document_type": "8-K",
+    "exhibits": [],
     "text_available": true,
     "metadata": {
       "text_length": 4008,
@@ -49,6 +52,7 @@
     "url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126006577/ef20060722_8k.htm",
     "entity": "Apple Inc.",
     "document_type": "8-K",
+    "exhibits": [],
     "text_available": true,
     "metadata": {
       "text_length": 4604,
@@ -63,6 +67,7 @@
     "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019326000005/aapl-20260129.htm",
     "entity": "Apple Inc.",
     "document_type": "8-K",
+    "exhibits": [],
     "text_available": true,
     "metadata": {
       "text_length": 9895,
@@ -77,6 +82,7 @@
     "url": "https://www.sec.gov/Archives/edgar/data/320193/000114036126000199/ef20060722_8k.htm",
     "entity": "Apple Inc.",
     "document_type": "8-K",
+    "exhibits": [],
     "text_available": true,
     "metadata": {
       "text_length": 3242,
@@ -91,6 +97,7 @@
     "url": "https://www.sec.gov/Archives/edgar/data/320193/000114036125044561/ef20060722_8k.htm",
     "entity": "Apple Inc.",
     "document_type": "8-K",
+    "exhibits": [],
     "text_available": true,
     "metadata": {
       "text_length": 2964,
@@ -105,6 +112,7 @@
     "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000077/aapl-20251030.htm",
     "entity": "Apple Inc.",
     "document_type": "8-K",
+    "exhibits": [],
     "text_available": true,
     "metadata": {
       "text_length": 13522,
@@ -119,6 +127,7 @@
     "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000071/aapl-20250731.htm",
     "entity": "Apple Inc.",
     "document_type": "8-K",
+    "exhibits": [],
     "text_available": true,
     "metadata": {
       "text_length": 10249,
@@ -133,6 +142,7 @@
     "url": "https://www.sec.gov/Archives/edgar/data/320193/000114036125027340/ef20052355_8k.htm",
     "entity": "Apple Inc.",
     "document_type": "8-K",
+    "exhibits": [],
     "text_available": true,
     "metadata": {
       "text_length": 3379,
